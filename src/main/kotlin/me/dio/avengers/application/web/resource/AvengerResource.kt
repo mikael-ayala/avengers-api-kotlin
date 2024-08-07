@@ -6,6 +6,7 @@ import me.dio.avengers.application.web.resource.response.AvengerResponse
 import me.dio.avengers.domain.avenger.AvengerRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -53,4 +54,10 @@ class AvengerResource(
                 avenger -> ResponseEntity.accepted().body(AvengerResponse.from(avenger))
             }
         } ?: ResponseEntity.notFound().build<Void>()
+
+    @DeleteMapping("{id}")
+    fun deleteAvenger(@PathVariable("id") id: Long) =
+        repository.delete(id).let {
+            ResponseEntity.accepted().build<Void>()
+        }
 }
